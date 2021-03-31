@@ -8,7 +8,8 @@ class Television extends ElectronicItem
     /**
      * Television constructor.
      */
-    public function __construct(){
+    public function __construct()
+	{
         $this->setType(ElectronicItem::ELECTRONIC_ITEM_TELEVISION);
     }
 }

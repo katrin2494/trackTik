@@ -43,7 +43,13 @@ class ElectronicItem
         return $this->wired;
     }
 
-    static function getTypes(){
+	/**
+	 * Returns the array of items types
+	 *
+	 * @return string[]
+	 */
+    static function getTypes(): array
+	{
         return self::$types;
     }
 
@@ -74,8 +80,13 @@ class ElectronicItem
         $this->extras = $extras;
     }
 
-    public static function maxExtras(array $extras)
-    {
+	/** Limit the max extras
+	 *
+	 * @param array $extras
+	 * @return bool
+	 */
+    public static function maxExtras(array $extras): bool
+	{
         if (is_null(self::MAX_EXTRAS)) return true;
         if (self::MAX_EXTRAS === false) return false;
 

@@ -12,16 +12,16 @@ class ElectronicItems
     }
 
     /**
-     * Returns the items depending on the sorting type requested
+     * Returns the items depending on the sorting type requested. Supported types are price,extra's count,type
      *
-     * @param $type (price,extra,type)
+     * @param string $type
      * @return array
      */
-    public function getSortedItems($type)
-    {
+    public function getSortedItems(string $type): array
+	{
         $sorted = $this->items;
 
-        switch ($type){
+        switch ($type) {
             case 'price':
                 usort($sorted, fn($a, $b) => $a->price > $b->price);
                 break;
@@ -37,8 +37,8 @@ class ElectronicItems
                 break;
         };
 
-        foreach ($sorted as $item){
-            if (!is_null($item->getExtras())){
+        foreach ($sorted as $item) {
+            if (!is_null($item->getExtras())) {
                 $extra_items = new ElectronicItems($item->getExtras());
                 $sorted_extras = $extra_items->getSortedItems($type);
                 $item->setExtras($sorted_extras);
@@ -48,12 +48,13 @@ class ElectronicItems
     }
 
     /**
-     *
+     * Returns the items depending on requested type
+	 *
      * @param string $type
      * @return array
      */
-    public function getItemsByType($type)
-    {
+    public function getItemsByType(string $type): array
+	{
         $items = [];
         if (in_array($type, ElectronicItem::getTypes())) {
             $callback = function ($item) use ($type) {
@@ -64,13 +65,20 @@ class ElectronicItems
         return $items;
     }
 
-    public function getTotalPrice($items){
+	/**
+	 * Returns the total price of items
+	 *
+	 * @param array $items
+	 * @return int
+	 */
+    public function getTotalPrice(array $items): int
+	{
         $total = 0;
-        foreach ($items as $item){
-            $total+=$item->price;
-            if (is_array($item->getExtras())){
-                foreach ($item->getExtras() as $extra){
-                    $total+=$extra->price;
+        foreach ($items as $item) {
+            $total += $item->price;
+            if (is_array($item->getExtras())) {
+                foreach ($item->getExtras() as $extra) {
+                    $total += $extra->price;
                 }
             }
         }

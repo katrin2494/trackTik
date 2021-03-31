@@ -9,7 +9,8 @@ class Controller extends ElectronicItem
     /**
      * Controller constructor.
      */
-    public function __construct(){
+    public function __construct()
+	{
         $this->setType(ElectronicItem::ELECTRONIC_ITEM_CONTROLLER);
     }
 }

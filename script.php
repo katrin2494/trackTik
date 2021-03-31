@@ -11,12 +11,17 @@ class Task
 
     private $items;
 
+	/**
+	 * Task constructor. Set variable to input values
+	 *
+	 * @throws Exception
+	 */
     public function __construct()
     {
         $console = new Console();
         $console->setPrice(rand(50,100));
         $controllers = [];
-        for ($i = 0; $i < 4; $i++){
+        for ($i = 0; $i < 4; $i++) {
             $controller = new Controller();
             $controller->setPrice(rand(10,20));
             $controller->setWired(($i%2) ? 'wired' : 'remote');
@@ -27,7 +32,7 @@ class Task
         $TV1 = new Television();
         $TV1->setPrice(rand(100,200));
         $controllers = [];
-        for ($i = 0; $i < 2; $i++){
+        for ($i = 0; $i < 2; $i++) {
             $controller = new Controller();
             $controller->setPrice(rand(10,20));
             $controller->setWired('remote');
@@ -38,7 +43,7 @@ class Task
         $TV2 = new Television();
         $TV2->setPrice(rand(100,200));
         $controllers = [];
-        for ($i = 0; $i < 1; $i++){
+        for ($i = 0; $i < 1; $i++) {
             $controller = new Controller();
             $controller->setPrice(rand(10,20));
             $controller->setWired('remote');
@@ -52,34 +57,48 @@ class Task
         $this->items = [$console, $TV1, $TV2, $microwave];
     }
 
-    public function question1(){
+	/**
+	 * Answer for question#1. Returns total price and sorted items and extras by price
+	 */
+    public function question1()
+	{
         print_r("Question 1\n");
         $result = new ElectronicItems($this->items);
         $items = $result->getSortedItems('price');
 
         self::outputResult($items);
-        echo 'Total price = '.$result->getTotalPrice($items)."\n\n";
+        echo 'Total price = ' . $result->getTotalPrice($items) . "\n\n";
     }
 
-    public function question2(){
+	/**
+	 * Answer for question#2. Returns total price of console and price of each item
+	 */
+    public function question2()
+	{
         print_r("Question 2\n");
         $result = new ElectronicItems($this->items);
         $items = $result->getItemsByType('console');
 
         self::outputResult($items);
-        echo 'Total price = '.$result->getTotalPrice($items)."\n\n";
+        echo 'Total price = ' . $result->getTotalPrice($items) . "\n\n";
     }
 
-    private static function outputResult($data){
+	/**
+	 * Returns data with in a console table format
+	 *
+	 * @param $data
+	 */
+    private static function outputResult($data)
+	{
         $mask = "|%3.3s |%-20.20s |%5.5s |%7.7s |\n";
-        printf($mask, 'ID', 'Type','price','wired');
+        printf($mask, 'ID','Type','price','wired');
 
         foreach ($data as $key => $item) {
-            printf($mask, $key, $item->getType(),$item->price,'');
+            printf($mask, $key, $item->getType(), $item->price,'');
 
-            if (is_array($item->getExtras())){
+            if (is_array($item->getExtras())) {
                 foreach ($item->getExtras() as $extra) {
-                    printf($mask, ' ', 'extra-'.$extra->getType(),$extra->price,$extra->getWIred());
+                    printf($mask, ' ', 'extra-' . $extra->getType(), $extra->price, $extra->getWIred());
                 }
             }
             print_r("--------------------------------------------\n");
